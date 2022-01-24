@@ -1,0 +1,6 @@
+{
+	"version": "2022-01-24",
+	"versionCode": 4,
+	"zipUrl": "https://github.com/JoshuaDoes/jdtoolbox/releases/download/4/jdtoolbox.zip",
+	"changelog": "Add sanity checks and recovery partition support to TWRP installer"
+}

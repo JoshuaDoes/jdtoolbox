@@ -6,3 +6,4 @@ author=JoshuaDoes
 description=Toolbox for Android that uses a custom text menu and keycode template engine to select actions
 support=todo
 donate=https://paypal.me/JoshuaDoes
+updateJson=https://github.com/JoshuaDoes/jdtoolbox/blob/master/update.json
