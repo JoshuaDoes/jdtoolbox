@@ -1,0 +1,94 @@
+{
+	"environment": {
+		"kernelimg": "...",
+		"kerneldtb": "...",
+		"twrpimg": "..."
+	},
+	"homeMenu": "home",
+	"menus": {
+		"home": {
+			"title": "JD's Toolbox",
+			"items": [
+				{
+					"name": "Kernel Installer ...",
+					"type": "menu",
+					"action": "krnlinst"
+				},
+				{
+					"name": "TWRP Installer ...",
+					"type": "menu",
+					"action": "twrpinst"
+				},
+				{
+					"type": "divider",
+					"action": "2"
+				},
+				{
+					"name": "Browse Files ...",
+					"type": "menu",
+					"action": "browse"
+				},
+				{
+					"name": "Exit",
+					"type": "internal",
+					"action": "exit"
+				}
+			]
+		},
+		"browse": {
+			"title": "Browse Files",
+			"items": [
+				{
+					"name": "Browse interal storage ...",
+					"type": "explorer /sdcard/",
+					"action": "file $?"
+				},
+				{
+					"name": "Browse Magisk ...",
+					"type": "explorer /data/adb/",
+					"action": "file $?"
+				},
+				{
+					"name": "Browse root ...",
+					"type": "explorer /",
+					"action": "file $?"
+				}
+			]
+		},
+		"krnlinst": {
+			"title": "Kernel Installer",
+			"items": [
+				{
+					"name": "Select kernel image ($kernelimg)",
+					"type": "setvar kernelimg",
+					"action": "explorer /sdcard/"
+				},
+				{
+					"name": "Select kernel dtb ($kerneldtb)",
+					"type": "setvar kerneldtb",
+					"action": "explorer /sdcard/"
+				},
+				{
+					"name": "Install kernel",
+					"type": "exec Kernel installed!",
+					"action": "/bin/sh $WORKINGDIR/bin/KernelInstaller.sh $kernelimg $kerneldtb"
+				}
+			]
+		},
+		"twrpinst": {
+			"title": "TWRP Installer",
+			"items": [
+				{
+					"name": "Select TWRP boot image ($twrpimg)",
+					"type": "setvar twrpimg",
+					"action": "explorer /sdcard/"
+				},
+				{
+					"name": "Install TWRP",
+					"type": "exec TWRP installed!\n\n  • Please reflash Magisk before rebooting, or you WILL lose root!\n  • You can use the Magisk app or flash the latest Magisk via TWRP.",
+					"action": "/bin/sh $WORKINGDIR/bin/TeamWinInstaller.sh $twrpimg"
+				}
+			]
+		}
+	}
+}

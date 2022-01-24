@@ -1,0 +1,8 @@
+id=jdtoolbox
+name=JD's Toolbox (cache)
+version=2022-01-24
+versionCode=4
+author=JoshuaDoes
+description=Toolbox for Android that uses a custom text menu and keycode template engine to select actions
+support=todo
+donate=https://paypal.me/JoshuaDoes
