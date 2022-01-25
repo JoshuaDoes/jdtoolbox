@@ -1,7 +1,7 @@
 id=jdtoolbox
 name=JD's Toolbox (cache)
 version=2022-01-25
-versionCode=5
+versionCode=6
 author=JoshuaDoes
 description=Toolbox for Android that uses a custom text menu and keycode template engine to select actions.\nThis stores the cache for it, such as your keycode calibration settings.
 support=todo
