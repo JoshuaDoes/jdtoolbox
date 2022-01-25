@@ -54,6 +54,8 @@ EOF
 
 kernel_image=$1
 echo "$P Kernel image: $kernel_image"
+kernel_dtb=$2
+[[ ! -z "$kernel_dtb" ]] && echo "$P Kernel device tree blob: $kernel_dtb" || echo "$P No device tree blob specified, ignoring..."
 boot_slot="$(cat /proc/cmdline | tr ' ' '\n' | grep androidboot.slot_suffix | sed 's/.*=_\(.*\)/\1/')"
 [[ ! -z "$boot_slot" ]] && export boot_slot="_$boot_slot" && echo "$P Boot slot: $boot_slot" || echo "$P Boot has no secondary slots"
 echo "$P Scanning for boot partition, please wait..."
@@ -66,7 +68,8 @@ echo
 
 part_args="--boot $boot_part"
 [[ ! -z "$vendor_boot_part" ]] && export part_args="$part_args --vendorboot $vendor_boot_part"
-./bin/krnlinst --wd "$TMPDIR/" --magiskboot "$MAGISKBOOT" --kernel "$kernel_image" $part_args
+[[ ! -z "$kernel_dtb" ]] && export part_args="$part_args --dtb $kernel_dtb"
+./bin/krnlinst --wd "$TMPDIR/" --magiskboot "$MAGISKBOOT" $part_args --kernel "$kernel_image"
 
 #echo "$P Unpacking images..."
 #mkdir -p /data/local/tmp/boot_$boot_slot /data/local/tmp/vendor_boot_$boot_slot

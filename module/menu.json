@@ -64,9 +64,38 @@
 					"action": "explorer /sdcard/"
 				},
 				{
-					"name": "Install kernel",
+					"name": "Install kernel ...",
 					"type": "exec Kernel installed!",
 					"action": "/bin/sh $WORKINGDIR/bin/KernelInstaller.sh $kernelimg"
+				},
+				{
+					"type": "divider",
+					"action": "2"
+				},
+				{
+					"name": "Install raw kernel and device tree blob ...",
+					"type": "menu",
+					"action": "krnlinstdtb"
+				}
+			]
+		},
+		"krnlinstdtb": {
+			"title": "Kernel Installer (Advanced)",
+			"items": [
+				{
+					"name": "Select kernel ($kernel)",
+					"type": "setvar kernel",
+					"action": "explorer /sdcard/"
+				},
+				{
+					"name": "Select device tree blob ($dtb)",
+					"type": "setvar dtb",
+					"action": "explorer /sdcard/"
+				},
+				{
+					"name": "Install kernel and device tree blob ...",
+					"type": "exec Kernel and device tree blob installed!",
+					"action": "/bin/sh $WORKINGDIR/bin/KernelInstaller.sh $kernel $dtb"
 				}
 			]
 		},
@@ -79,7 +108,7 @@
 					"action": "explorer /sdcard/"
 				},
 				{
-					"name": "Install TWRP",
+					"name": "Install TWRP ...",
 					"type": "exec TWRP installed!\n\n  • Please reflash Magisk before rebooting, or you WILL lose root!\n  • You can use the Magisk app or flash the latest Magisk via TWRP.",
 					"action": "/bin/sh $WORKINGDIR/bin/TeamWinInstaller.sh $twrpimg"
 				}
