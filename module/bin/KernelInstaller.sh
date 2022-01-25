@@ -55,14 +55,18 @@ EOF
 kernel_image=$1
 echo "$P Kernel image: $kernel_image"
 boot_slot="$(cat /proc/cmdline | tr ' ' '\n' | grep androidboot.slot_suffix | sed 's/.*=_\(.*\)/\1/')"
-echo "$P Boot slot: $boot_slot"
-boot_part="$(find_part_by_name boot_$boot_slot)"
-echo "$P Boot partition: $boot_part"
-vendor_boot_part="$(find_part_by_name vendor_boot_$boot_slot)"
-echo "$P Vendor boot partition: $vendor_boot_part"
+[[ ! -z "$boot_slot" ]] && export boot_slot="_$boot_slot" && echo "$P Boot slot: $boot_slot" || echo "$P Boot has no secondary slots"
+echo "$P Scanning for boot partition, please wait..."
+boot_part="$(find_part_by_name boot$boot_slot)"
+[[ ! -z "$boot_part" ]] && echo "$P Boot partition: $boot_part" || (echo "$P No boot partition found" && exit 1) #How the hell don't you have boot?
+echo "$P Scanning for vendor boot partition, please wait..."
+vendor_boot_part="$(find_part_by_name vendor_boot$boot_slot)"
+[[ ! -z "$vendor_boot_part" ]] && echo "$P Vendor boot partition: $vendor_boot_part" || echo "$P No vendor boot partition found, ignoring..."
 echo
 
-./bin/krnlinst --wd "$TMPDIR/" --magiskboot "$MAGISKBOOT" --kernel "$kernel_image" --boot "$boot_part" --vendorboot "$vendor_boot_part"
+part_args="--boot $boot_part"
+[[ ! -z "$vendor_boot_part" ]] && export part_args="$part_args --vendorboot $vendor_boot_part"
+./bin/krnlinst --wd "$TMPDIR/" --magiskboot "$MAGISKBOOT" --kernel "$kernel_image" $part_args
 
 #echo "$P Unpacking images..."
 #mkdir -p /data/local/tmp/boot_$boot_slot /data/local/tmp/vendor_boot_$boot_slot

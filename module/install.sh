@@ -140,9 +140,10 @@ on_install() {
   unzip -o "$ZIPFILE" "bin/file-$ARCH" -d $TMPDIR >&2
   unzip -o "$ZIPFILE" "bin/jdtoolbox" -d $TMPDIR >&2
   unzip -o "$ZIPFILE" "bin/KernelInstaller.sh" -d $TMPDIR >&2
-  unzip -o "$ZIPFILE" "bin/kernelinstaller" -d $TMPDIR >&2
+  unzip -o "$ZIPFILE" "bin/krnlinst" -d $TMPDIR >&2
+  unzip -o "$ZIPFILE" "bin/magic.mgc" -d $TMPDIR >&2
   unzip -o "$ZIPFILE" "bin/TeamWinInstaller.sh" -d $TMPDIR >&2
-  unzip -o "$ZIPFILE" "bin/twrpinstaller" -d $TMPDIR >&2
+  unzip -o "$ZIPFILE" "bin/twrpinst" -d $TMPDIR >&2
   unzip -o "$ZIPFILE" "bin/tput-$ARCH" -d $TMPDIR >&2
 
   ui_print "- Contents of [$TMPDIR]:"

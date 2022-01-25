@@ -76,15 +76,17 @@ func main() {
 		check(fmt.Errorf("[%s] is not an Android bootimg: %s", boot, typeBoot))
 	}
 	log("Successfully validated boot as " + typeBoot)
-	
-	log("Backing up vendor_boot to [/sdcard/vendor_boot.img]...")
-	check(cp(vendorboot, "/sdcard/vendor_boot.img"))
-	
-	typeVendorBoot := file("/sdcard/vendor_boot.img")
-	if !strings.Contains(typeVendorBoot, "Android bootimg") {
-		check(fmt.Errorf("[%s] is not an Android bootimg: %s", vendorboot, typeVendorBoot))
+
+	if vendorboot != "" {
+		log("Backing up vendor boot to [/sdcard/vendor_boot.img]...")
+		check(cp(vendorboot, "/sdcard/vendor_boot.img"))
+
+		typeVendorBoot := file("/sdcard/vendor_boot.img")
+		if !strings.Contains(typeVendorBoot, "data") {
+			check(fmt.Errorf("[%s] is not correctly identified as data: %s", vendorboot, typeVendorBoot))
+		}
+		log("Successfully validated vendor boot as " + typeVendorBoot)
 	}
-	log("Successfully validated vendor_boot as " + typeVendorBoot)
 
 	typeKernel := file(kernel)
 	if strings.Contains(typeKernel, "Linux kernel") {
@@ -192,20 +194,22 @@ func main() {
 	log("Flashing boot...")
 	check(cp(wd+"boot.img", boot))
 
-	log("Unpacking vendor_boot to [" + wd+"vendor_boot]...")
-	check(os.MkdirAll(wd+"vendor_boot", 0644))
-	check(magiskboot(wd+"vendor_boot", "unpack", "-n", vendorboot))
+	if vendorboot != "" {
+		log("Unpacking vendor boot to [" + wd+"vendor_boot]...")
+		check(os.MkdirAll(wd+"vendor_boot", 0644))
+		check(magiskboot(wd+"vendor_boot", "unpack", "-n", vendorboot))
 
-	log("Injecting dtb into vendor_boot...")
-	check(cp(dtb, wd+"vendor_boot/dtb"))
+		log("Injecting dtb into vendor boot...")
+		check(cp(dtb, wd+"vendor_boot/dtb"))
 
-	log("Repacking vendor_boot...")
-	check(magiskboot(wd+"vendor_boot", "repack", "-n", vendorboot, wd+"vendor_boot.img"))
-	log("Cleaning up unpacked vendor_boot...")
-	check(os.RemoveAll(wd+"vendor_boot"))
+		log("Repacking vendor boot...")
+		check(magiskboot(wd+"vendor_boot", "repack", "-n", vendorboot, wd+"vendor_boot.img"))
+		log("Cleaning up unpacked vendor boot...")
+		check(os.RemoveAll(wd+"vendor_boot"))
 
-	log("Flashing vendor_boot...")
-	check(cp(wd+"vendor_boot.img", vendorboot))
+		log("Flashing vendor boot...")
+		check(cp(wd+"vendor_boot.img", vendorboot))
+	}
 }
 
 func magiskboot(dir string, args ...string) error {
@@ -236,9 +240,9 @@ func cp(src, dst string) error {
 }
 
 func file(path string) string {
-	fileType, err := exec.Command(wd+"/bin/file-" + runtime.GOARCH, path).Output()
+	fileType, err := exec.Command(wd+"/bin/file-" + runtime.GOARCH, "--magic-file", wd+"bin/magic.mgc", path).Output()
 	if err != nil {
-		return fmt.Sprintf("invalid: %v", err)
+		return fmt.Sprintf("file: %v", err)
 	}
 
 	return string(fileType[len(path)+2:len(fileType)-1])
