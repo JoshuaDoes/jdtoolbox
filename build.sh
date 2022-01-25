@@ -19,8 +19,8 @@ export JDTWRPINST=$WD/twrpinstaller
 
 export JDMOD=$WD/module
 export JDMENBIN=$JDMOD/bin/jdtoolbox
-export JDKERNBIN=$JDMOD/bin/kernelinstaller
-export JDTWRPBIN=$JDMOD/bin/twrpinstaller
+export JDKERNBIN=$JDMOD/bin/krnlinst
+export JDTWRPBIN=$JDMOD/bin/twrpinst
 
 # Go build the menu
 cd "$JDMEN"

@@ -65,7 +65,7 @@ echo
 
 part_args="--boot $boot_part"
 [[ ! -z "$recovery_part" ]] && export part_args="--recovery $recovery_part"
-./bin/twrpinstaller --wd "/data/local/tmp/" --magiskboot "$MAGISKBOOT" --twrp "$twrp_image" $part_args
+./bin/twrpinst --wd "$TMPDIR/" --magiskboot "$MAGISKBOOT" --twrp "$twrp_image" $part_args
 
 sync
 

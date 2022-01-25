@@ -13,6 +13,8 @@ on_error() {
     echo
     echo
     echo
+    
+    ls -la /dev/tmp/*
 
     exit 1
 }
@@ -52,8 +54,6 @@ EOF
 
 kernel_image=$1
 echo "$P Kernel image: $kernel_image"
-kernel_dtb=$2
-echo "$P Kernel dtb: $kernel_dtb"
 boot_slot="$(cat /proc/cmdline | tr ' ' '\n' | grep androidboot.slot_suffix | sed 's/.*=_\(.*\)/\1/')"
 echo "$P Boot slot: $boot_slot"
 boot_part="$(find_part_by_name boot_$boot_slot)"
@@ -62,7 +62,7 @@ vendor_boot_part="$(find_part_by_name vendor_boot_$boot_slot)"
 echo "$P Vendor boot partition: $vendor_boot_part"
 echo
 
-./bin/kernelinstaller --wd "/data/local/tmp/" --magiskboot "$MAGISKBOOT" --kernel "$kernel_image" --dtb "$kernel_dtb" --boot "$boot_part" --vendorboot "$vendor_boot_part"
+./bin/krnlinst --wd "$TMPDIR/" --magiskboot "$MAGISKBOOT" --kernel "$kernel_image" --boot "$boot_part" --vendorboot "$vendor_boot_part"
 
 #echo "$P Unpacking images..."
 #mkdir -p /data/local/tmp/boot_$boot_slot /data/local/tmp/vendor_boot_$boot_slot

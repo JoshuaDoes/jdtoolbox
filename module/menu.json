@@ -64,14 +64,9 @@
 					"action": "explorer /sdcard/"
 				},
 				{
-					"name": "Select kernel dtb ($kerneldtb)",
-					"type": "setvar kerneldtb",
-					"action": "explorer /sdcard/"
-				},
-				{
 					"name": "Install kernel",
 					"type": "exec Kernel installed!",
-					"action": "/bin/sh $WORKINGDIR/bin/KernelInstaller.sh $kernelimg $kerneldtb"
+					"action": "/bin/sh $WORKINGDIR/bin/KernelInstaller.sh $kernelimg"
 				}
 			]
 		},

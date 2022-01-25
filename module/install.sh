@@ -133,10 +133,11 @@ on_install() {
   # Extend/change the logic to whatever you want
   export TERM=xterm-256color
 
-  ui_print "- Extracting menu"
+  ui_print "- Extracting assets to [$TMPDIR]..."
   mkdir -p /data/adb/modules/jdtoolbox
   unzip -o "$ZIPFILE" "module.prop" -d $MODPATH >&2
   unzip -o "$ZIPFILE" "menu.json" -d $TMPDIR >&2
+  unzip -o "$ZIPFILE" "bin/file-$ARCH" -d $TMPDIR >&2
   unzip -o "$ZIPFILE" "bin/jdtoolbox" -d $TMPDIR >&2
   unzip -o "$ZIPFILE" "bin/KernelInstaller.sh" -d $TMPDIR >&2
   unzip -o "$ZIPFILE" "bin/kernelinstaller" -d $TMPDIR >&2
@@ -144,7 +145,12 @@ on_install() {
   unzip -o "$ZIPFILE" "bin/twrpinstaller" -d $TMPDIR >&2
   unzip -o "$ZIPFILE" "bin/tput-$ARCH" -d $TMPDIR >&2
 
-  ui_print "- Executing menu"
+  ui_print "- Contents of [$TMPDIR]:"
+  ls -la $TMPDIR/*
+  ui_print "- Contents of [$MODPATH]:"
+  ls -la $MODPATH/*
+
+  ui_print "- Starting the menu..."
   exec $TMPDIR/bin/jdtoolbox --menu $TMPDIR/menu.json --keyCalibration /data/adb/modules/jdtoolbox/keyCalibration.json --workingDir $TMPDIR --vLines "$($TMPDIR/bin/tput-$ARCH columns)" --hLines "$($TMPDIR/bin/tput-$ARCH lines)" 2>&1
 
   ui_print ""
