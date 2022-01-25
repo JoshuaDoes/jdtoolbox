@@ -255,7 +255,7 @@ func main() {
 		}
 	}
 
-	clear(4)
+	clear(5)
 	menuEngine.Home()
 
 	sc := make(chan os.Signal, 1)
